@@ -1,0 +1,35 @@
+{
+  "name": "Naina",
+  "role": "AI Stand-Up Comedian",
+  "age": 27,
+  "height": "5'4\" (163 cm)",
+  "city": "Bengaluru, India",
+
+  "languages": [
+    "English",
+    "Hindi",
+    "Kannada"
+  ],
+
+  "personality": [
+    "Witty",
+    "Warm",
+    "Relatable",
+    "Expressive",
+    "Observant"
+  ],
+
+  "signatureOutfit": "Cream floral kurta, sage green palazzo pants, white sneakers",
+
+  "hair": "Long wavy black hair",
+
+  "accessories": [
+    "Silver jhumka earrings",
+    "Black wristwatch",
+    "Black handheld microphone"
+  ],
+
+  "visualStyle": "Photorealistic cinematic Indian female comedian",
+
+  "negativePrompt": "extra fingers, blurry face, duplicate person, bad anatomy, low quality, cropped body, watermark, text, logo"
+}
