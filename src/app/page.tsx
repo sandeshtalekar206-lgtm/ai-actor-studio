@@ -2960,6 +2960,16 @@ ${selectedCharacter.negativePrompt}
             padding-right: 32px;
           }
           .premium-card { padding: 16px !important; }
+          .premium-footer {
+            gap: 8px;
+            white-space: nowrap;
+            font-size: 12px;
+          }
+          .premium-footer::before,
+          .premium-footer::after {
+            width: 58px;
+            flex: 0 0 58px;
+          }
         }
       `}</style>
 
