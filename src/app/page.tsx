@@ -2872,21 +2872,92 @@ ${selectedCharacter.negativePrompt}
         }
 
         @media (max-width: 900px) {
-          .premium-shell { padding: 20px 16px 30px; }
-          .premium-header { align-items: flex-start; }
+          .premium-shell { padding: 18px 16px 30px; }
+          .premium-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 18px;
+            margin-bottom: 24px;
+          }
+          .premium-brand {
+            width: 100%;
+            gap: 14px;
+            align-items: center;
+          }
+          .top-left-logo {
+            width: 82px;
+            height: 58px;
+          }
+          .top-left-logo img { width: 82px; }
+          .brand-title { font-size: clamp(30px, 7vw, 38px); }
+          .brand-subtitle { font-size: 13px; margin-top: 7px; line-height: 1.45; }
           .flow-badge { display: none; }
-          .background-picker { width: 100%; }
-          .button-color-picker { width: 100%; }
-          .background-dropdown { min-width: 0; width: 100%; }
-          .button-color-dropdown { min-width: 0; }
-          .background-dropdown-trigger { min-width: 0; width: 100%; }
+          .premium-header > div:last-child {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+          }
+          .background-picker,
+          .button-color-picker {
+            width: 100%;
+            box-sizing: border-box;
+          }
+          .background-dropdown,
+          .button-color-dropdown {
+            min-width: 0;
+            width: 100%;
+            flex: 1;
+          }
+          .background-dropdown-trigger {
+            min-width: 0;
+            width: 100%;
+          }
           .background-dropdown-menu { width: 100%; }
+          .premium-header > div:last-child > button {
+            width: 100%;
+            justify-content: center;
+          }
           .top-right-logo { width: 70px; height: 44px; }
           .top-right-logo img { width: 70px; }
           .premium-grid { grid-template-columns: 1fr; }
           .premium-card { padding: 20px !important; }
           .st-mark { width: 76px; font-size: 36px; }
           .brand-divider { display: none; }
+        }
+
+        @media (max-width: 520px) {
+          .premium-shell { padding: 14px 12px 26px; }
+          .premium-header { gap: 14px; margin-bottom: 18px; }
+          .premium-brand { gap: 10px; align-items: flex-start; }
+          .top-left-logo {
+            width: 68px;
+            height: 50px;
+            margin-top: 2px;
+          }
+          .top-left-logo img { width: 68px; }
+          .brand-title {
+            font-size: 28px;
+            letter-spacing: -1px;
+          }
+          .brand-subtitle {
+            font-size: 12px;
+            max-width: 240px;
+          }
+          .background-picker,
+          .button-color-picker {
+            padding: 6px 8px;
+            gap: 7px;
+          }
+          .background-picker-label { font-size: 10px; }
+          .background-dropdown-trigger {
+            height: 40px;
+            font-size: 12px;
+            padding-left: 10px;
+            padding-right: 32px;
+          }
+          .premium-card { padding: 16px !important; }
         }
       `}</style>
 
