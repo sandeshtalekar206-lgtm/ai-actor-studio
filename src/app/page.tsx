@@ -5296,7 +5296,7 @@ ${buildContinuityFooter()}`;
         </div>
 
         <div className="premium-footer">
-          Developed by ST
+          Developed by ST &nbsp;•&nbsp; Tested By DP
         </div>
 
       </div>
