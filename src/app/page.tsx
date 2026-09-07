@@ -2789,6 +2789,8 @@ ${selectedCharacter.negativePrompt}
           position: relative;
           z-index: 50;
         }
+        .background-picker.is-open { z-index: 100; }
+        .button-color-picker.is-open { z-index: 100; }
         .background-dropdown {
           position: relative;
           min-width: 230px;
@@ -2978,13 +2980,16 @@ ${selectedCharacter.negativePrompt}
           </div>
 
           <div className="flex items-center gap-3 flex-wrap justify-end">
-            <div className="background-picker" title="Change the Studio UI background">
+            <div className={`background-picker ${bgMenuOpen ? "is-open" : ""}`} title="Change the Studio UI background">
               <span className="background-picker-label">BG</span>
               <div className="background-dropdown">
                 <button
                   type="button"
                   className="background-dropdown-trigger"
-                  onClick={() => setBgMenuOpen((open) => !open)}
+                  onClick={() => {
+                    setBgMenuOpen((open) => !open);
+                    setButtonColorMenuOpen(false);
+                  }}
                   aria-haspopup="listbox"
                   aria-expanded={bgMenuOpen}
                 >
@@ -3015,13 +3020,16 @@ ${selectedCharacter.negativePrompt}
               </div>
             </div>
 
-            <div className="button-color-picker" title="Change the action button color theme">
+            <div className={`button-color-picker ${buttonColorMenuOpen ? "is-open" : ""}`} title="Change the action button color theme">
               <span className="background-picker-label">COLOR</span>
               <div className="background-dropdown button-color-dropdown">
                 <button
                   type="button"
                   className="background-dropdown-trigger button-color-trigger"
-                  onClick={() => setButtonColorMenuOpen((open) => !open)}
+                  onClick={() => {
+                    setButtonColorMenuOpen((open) => !open);
+                    setBgMenuOpen(false);
+                  }}
                   aria-haspopup="listbox"
                   aria-expanded={buttonColorMenuOpen}
                 >
