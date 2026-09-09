@@ -13,47 +13,6 @@ import styles from "./data/styles.json";
 import character from "./data/character.json";
 
 type ShotCount = number | "auto";
-const UI_BACKGROUND_THEMES = [
-  { id: "gold-grid", name: "Cinematic Gold Grid", icon: "▦" },
-  { id: "luxury-gold", name: "Luxury Black & Gold", icon: "✦" },
-  { id: "carbon", name: "Dark Carbon Fiber", icon: "▤" },
-  { id: "midnight-blue", name: "Midnight Blue", icon: "◈" },
-  { id: "deep-red", name: "Deep Red Cinema", icon: "◆" },
-  { id: "neon-cyber", name: "Neon Cyber", icon: "⌁" },
-  { id: "studio-spotlight", name: "Dark Studio Spotlight", icon: "◉" },
-  { id: "obsidian", name: "Minimal Obsidian", icon: "●" },
-  { id: "aurora-noir", name: "Aurora Noir", icon: "✧" },
-  { id: "emerald-noir", name: "Emerald Noir", icon: "◇" },
-  { id: "violet-cinema", name: "Violet Cinema", icon: "◌" },
-  { id: "silver-steel", name: "Silver Steel", icon: "⬡" },
-  { id: "amber-cinema", name: "Amber Cinema", icon: "◐" },
-  { id: "royal-blue", name: "Royal Blue", icon: "✦" },
-  { id: "plum-noir", name: "Plum Noir", icon: "◈" },
-  { id: "warm-studio", name: "Warm Studio", icon: "◉" },
-] as const;
-
-type UIBackgroundTheme = (typeof UI_BACKGROUND_THEMES)[number]["id"];
-
-const BUTTON_COLOR_THEMES = [
-  { id: "purple-velvet", name: "1. Purple / Velvet", icon: "●", swatch: "#9b3cff" },
-  { id: "teal-mist", name: "2. Teal / Mist", icon: "●", swatch: "#48e1df" },
-  { id: "amber-golden-haze", name: "3. Amber / Golden Haze", icon: "●", swatch: "#ffc84a" },
-  { id: "royal-blue-luxe", name: "4. Royal Blue / Luxe", icon: "●", swatch: "#238cff" },
-  { id: "rose-pink-neon", name: "5. Rose Pink / Neon", icon: "●", swatch: "#ff4fa3" },
-  { id: "lime-green-matrix", name: "6. Lime Green / Matrix", icon: "●", swatch: "#6dff3f" },
-  { id: "orange-sunset", name: "7. Orange / Sunset", icon: "●", swatch: "#ff7b22" },
-  { id: "cyan-aqua", name: "8. Cyan / Aqua", icon: "●", swatch: "#10dce8" },
-  { id: "violet-lavender", name: "9. Violet / Lavender", icon: "●", swatch: "#a779ff" },
-  { id: "silver-steel", name: "10. Silver / Steel", icon: "●", swatch: "#d7e5f2" },
-  { id: "deep-red-blood", name: "11. Deep Red / Blood", icon: "●", swatch: "#ff1e35" },
-  { id: "indigo-galaxy", name: "12. Indigo / Galaxy", icon: "●", swatch: "#5550ff" },
-  { id: "turquoise-ocean", name: "13. Turquoise / Ocean", icon: "●", swatch: "#17dfe4" },
-  { id: "magenta-electric", name: "14. Magenta / Electric", icon: "●", swatch: "#ff16d4" },
-  { id: "black-neon-edge", name: "15. Black / Neon Edge", icon: "●", swatch: "#dce8f5" },
-] as const;
-
-type ButtonColorTheme = (typeof BUTTON_COLOR_THEMES)[number]["id"];
-
 
 type ShotItem = {
   id: number;
@@ -577,10 +536,6 @@ const normalizeTrendResearch = (
 ========================================================= */
 
 export default function Home() {
-  const [uiBackground, setUiBackground] = useState<UIBackgroundTheme>("gold-grid");
-  const [bgMenuOpen, setBgMenuOpen] = useState(false);
-const [buttonColorTheme, setButtonColorTheme] =
-  useState<ButtonColorTheme>("royal-blue-luxe");  const [buttonColorMenuOpen, setButtonColorMenuOpen] = useState(false);
   const [selectedCharacter] =
     useState(character);
 
@@ -2091,7 +2046,7 @@ ${selectedCharacter.negativePrompt}
   ========================================================= */
 
   return (
-    <main className="premium-ui min-h-screen text-white" data-bg={uiBackground} data-button-theme={buttonColorTheme}>
+    <main className="premium-ui min-h-screen text-white">
       <style jsx global>{`
         .premium-ui {
           --gold: #c9a45b;
@@ -2101,47 +2056,11 @@ ${selectedCharacter.negativePrompt}
           --panel: rgba(15, 17, 19, 0.88);
           --panel-2: rgba(20, 22, 25, 0.92);
           --line: rgba(201, 164, 91, 0.24);
-          position: relative;
-          isolation: isolate;
-          overflow: hidden;
           background:
-            radial-gradient(circle at 50% -8%, rgba(201,164,91,.16), transparent 32%),
-            radial-gradient(circle at 8% 45%, rgba(201,164,91,.055), transparent 24%),
-            radial-gradient(circle at 92% 72%, rgba(201,164,91,.065), transparent 25%),
-            linear-gradient(135deg, #030405 0%, #080a0c 48%, #040506 100%);
+            radial-gradient(circle at 86% 8%, rgba(201,164,91,.12), transparent 26%),
+            radial-gradient(circle at 8% 88%, rgba(201,164,91,.08), transparent 24%),
+            linear-gradient(135deg, #050607 0%, #0a0c0e 48%, #060708 100%);
           min-height: 100vh;
-        }
-
-        /* Subtle cinematic technical grid — intentionally low contrast so it never
-           competes with the controls or cards. */
-        .premium-ui::before {
-          content: "";
-          position: fixed;
-          inset: 0;
-          z-index: 0;
-          pointer-events: none;
-          opacity: .62;
-          background-image:
-            linear-gradient(rgba(201,164,91,.055) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(201,164,91,.055) 1px, transparent 1px),
-            linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
-          background-size: 64px 64px, 64px 64px, 16px 16px, 16px 16px;
-          mask-image: radial-gradient(ellipse at center, black 5%, black 78%, transparent 100%);
-          -webkit-mask-image: radial-gradient(ellipse at center, black 5%, black 78%, transparent 100%);
-        }
-
-        .premium-ui::after {
-          content: "";
-          position: fixed;
-          inset: -20%;
-          z-index: 0;
-          pointer-events: none;
-          background:
-            radial-gradient(circle at 50% 18%, rgba(201,164,91,.14), transparent 17%),
-            radial-gradient(circle at 15% 82%, rgba(201,164,91,.045), transparent 15%),
-            radial-gradient(circle at 88% 38%, rgba(201,164,91,.04), transparent 16%);
-          filter: blur(32px);
         }
 
         .premium-ui * {
@@ -2149,8 +2068,6 @@ ${selectedCharacter.negativePrompt}
         }
 
         .premium-shell {
-          position: relative;
-          z-index: 1;
           max-width: 1700px;
           margin: 0 auto;
           padding: 28px 34px 40px;
@@ -2170,22 +2087,29 @@ ${selectedCharacter.negativePrompt}
           gap: 20px;
         }
 
-        .top-left-logo {
+        .st-mark {
           width: 108px;
           height: 70px;
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          flex-shrink: 0;
-          filter: drop-shadow(0 0 12px rgba(224, 176, 76, .18));
+          display: grid;
+          place-items: center;
+          position: relative;
+          color: var(--gold-light);
+          font-family: Georgia, "Times New Roman", serif;
+          font-size: 46px;
+          font-style: italic;
+          letter-spacing: -10px;
+          text-shadow: 0 0 18px rgba(201,164,91,.28);
         }
 
-        .top-left-logo img {
-          width: 108px;
-          height: auto;
-          display: block;
-          object-fit: contain;
-          mix-blend-mode: screen;
+        .st-mark::after {
+          content: "";
+          position: absolute;
+          right: -2px;
+          top: 7px;
+          height: 56px;
+          width: 1px;
+          background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+          opacity: .7;
         }
 
         .brand-divider {
@@ -2271,28 +2195,6 @@ ${selectedCharacter.negativePrompt}
           transition: border-color .2s, box-shadow .2s;
         }
 
-        /* PREMIUM DARK DROPDOWN OPTIONS */
-.premium-ui select {
-  color-scheme: dark;
-  background-color: #111315 !important;
-  color: #f1eee7 !important;
-}
-
-.premium-ui select option {
-  background-color: #111315 !important;
-  color: #f1eee7 !important;
-}
-
-.premium-ui select option:checked {
-  background-color: #c9a45b !important;
-  color: #08090a !important;
-}
-
-.premium-ui select option:hover {
-  background-color: #2a2418 !important;
-  color: #ffffff !important;
-}
-
         .premium-ui input:focus,
         .premium-ui textarea:focus,
         .premium-ui select:focus {
@@ -2309,194 +2211,24 @@ ${selectedCharacter.negativePrompt}
         .premium-ui button {
           border-radius: 11px !important;
           border: 1px solid rgba(201,164,91,.34) !important;
-          transition: transform .18s ease, box-shadow .22s ease, filter .18s ease, background .22s ease, border-color .22s ease;
+          transition: transform .18s, box-shadow .18s, filter .18s;
         }
 
-        /* =====================================================
-           PREMIUM ACTION BARS — REFERENCE STYLE
-           Normal / Hover / Pressed / Disabled
-        ===================================================== */
-        .premium-ui .premium-action-button {
-          display: grid !important;
-          grid-template-columns: 52px minmax(0, 1fr) 52px;
-          align-items: center;
-          width: 100%;
-          min-height: 52px;
-          padding: 0 10px !important;
-          border-radius: 12px !important;
-          border: 1px solid var(--button-border) !important;
-          background: linear-gradient(180deg, var(--button-top) 0%, var(--button-mid) 46%, #020406 100%) !important;
-          color: var(--button-text) !important;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.13), inset 0 -14px 28px rgba(0,0,0,.34), 0 0 0 1px var(--button-border-soft), 0 8px 24px rgba(0,0,0,.32);
-          position: relative;
-          overflow: hidden;
-          isolation: isolate;
-          font-weight: 650;
-          letter-spacing: .01em;
-          text-align: center;
-        }
-
-        .premium-ui .premium-action-button::before {
-          content: "▤";
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          align-self: stretch;
-          border-right: 1px solid color-mix(in srgb, var(--button-text) 55%, transparent);
-          color: var(--button-text);
-          font-size: 20px;
-          line-height: 1;
-          text-shadow: 0 0 8px var(--button-glow-soft);
-          position: relative;
-          z-index: 2;
-        }
-
-        .premium-ui .premium-action-button::after {
-          content: "→";
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          align-self: stretch;
-          color: var(--button-text);
-          font-size: 29px;
-          font-weight: 300;
-          line-height: 1;
-          text-shadow: 0 0 9px var(--button-glow-soft);
-          position: relative;
-          z-index: 2;
-        }
-
-        .premium-ui .premium-action-button:not(:disabled):hover {
+        .premium-ui button:not(:disabled):hover {
           transform: translateY(-1px);
-          filter: none;
-          background: linear-gradient(180deg, var(--button-hover-top) 0%, var(--button-hover-mid) 46%, #020406 100%) !important;
-          color: var(--button-hover-text) !important;
-          border-color: var(--button-hover-border) !important;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -16px 30px rgba(0,0,0,.40), 0 0 10px var(--button-glow-strong), 0 0 28px var(--button-glow-soft), 0 10px 30px rgba(0,0,0,.38);
+          filter: brightness(1.08);
+          box-shadow: 0 10px 28px rgba(0,0,0,.24);
         }
 
-        .premium-ui .premium-action-button:not(:disabled):hover::before,
-        .premium-ui .premium-action-button:not(:disabled):hover::after {
-          color: var(--button-hover-text);
-        }
-
-        .premium-ui .premium-action-button:not(:disabled):active {
-          transform: translateY(1px) scale(.995);
-          filter: brightness(.92);
-          background: linear-gradient(180deg, var(--button-mid) 0%, #020406 70%, #000 100%) !important;
-          border-color: var(--button-border) !important;
-          color: var(--button-text) !important;
-          box-shadow: inset 0 3px 10px rgba(0,0,0,.58), inset 0 -2px 0 rgba(255,255,255,.045), 0 0 0 1px var(--button-border-soft), 0 3px 9px rgba(0,0,0,.45);
-        }
-
-        .premium-ui .premium-action-button:disabled {
-          cursor: not-allowed !important;
-          transform: none !important;
-          filter: saturate(.25) brightness(.68);
-          background: linear-gradient(180deg, #20252a 0%, #0d1013 48%, #050607 100%) !important;
-          border-color: rgba(150,165,178,.34) !important;
-          color: rgba(214,224,232,.52) !important;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.055), inset 0 -12px 24px rgba(0,0,0,.42), 0 0 0 1px rgba(160,175,190,.06);
-        }
-
-        .premium-ui .premium-action-button:disabled::before,
-        .premium-ui .premium-action-button:disabled::after {
-          color: rgba(214,224,232,.52);
-          text-shadow: none;
-        }
-
-        /* =====================================================
-           ACTION BUTTON COLOR THEMES — 15 PREMIUM NEON PALETTES
-        ===================================================== */
-        .premium-ui[data-button-theme="purple-velvet"] {
-          --button-top: #32104f; --button-mid: #100419; --button-border: #8f32e8;
-          --button-border-soft: rgba(155,60,255,.16); --button-text: #c17aff;
-          --button-hover-top: #5a1b83; --button-hover-mid: #190629; --button-hover-border: #b85cff;
-          --button-hover-text: #efd4ff; --button-glow-strong: rgba(155,60,255,.62); --button-glow-soft: rgba(155,60,255,.30);
-        }
-        .premium-ui[data-button-theme="teal-mist"] {
-          --button-top: #123f40; --button-mid: #041719; --button-border: #22bfc0;
-          --button-border-soft: rgba(72,225,223,.16); --button-text: #5cf0ed;
-          --button-hover-top: #1b6969; --button-hover-mid: #062728; --button-hover-border: #72fffb;
-          --button-hover-text: #d0fffd; --button-glow-strong: rgba(72,225,223,.60); --button-glow-soft: rgba(72,225,223,.30);
-        }
-        .premium-ui[data-button-theme="amber-golden-haze"] {
-          --button-top: #1A1A1A; --button-mid: #030303; --button-border: #D4AF37;
-          --button-border-soft: rgba(212,175,55,.35); --button-text: #F5D77A;
-          --button-hover-top: #292929; --button-hover-mid: #050505; --button-hover-border: #FFE7A0;
-          --button-hover-text: #FFF4CC; --button-glow-strong: rgba(255,215,100,.75); --button-glow-soft: rgba(212,175,55,.35);
-        }
-        .premium-ui[data-button-theme="royal-blue-luxe"] {
-          --button-top: #132d55; --button-mid: #050d1c; --button-border: #1f78dc;
-          --button-border-soft: rgba(35,140,255,.16); --button-text: #63b8ff;
-          --button-hover-top: #2459a0; --button-hover-mid: #08152a; --button-hover-border: #55aaff;
-          --button-hover-text: #c8e7ff; --button-glow-strong: rgba(35,140,255,.62); --button-glow-soft: rgba(35,140,255,.30);
-        }
-        .premium-ui[data-button-theme="rose-pink-neon"] {
-          --button-top: #4a1230; --button-mid: #17040f; --button-border: #dc347e;
-          --button-border-soft: rgba(255,79,163,.16); --button-text: #ff63ae;
-          --button-hover-top: #812050; --button-hover-mid: #250715; --button-hover-border: #ff69b5;
-          --button-hover-text: #ffd1e8; --button-glow-strong: rgba(255,79,163,.65); --button-glow-soft: rgba(255,79,163,.32);
-        }
-        .premium-ui[data-button-theme="lime-green-matrix"] {
-          --button-top: #173d12; --button-mid: #061506; --button-border: #43d82e;
-          --button-border-soft: rgba(109,255,63,.16); --button-text: #7dff5b;
-          --button-hover-top: #2a7620; --button-hover-mid: #0a2208; --button-hover-border: #8cff72;
-          --button-hover-text: #ddffd5; --button-glow-strong: rgba(109,255,63,.62); --button-glow-soft: rgba(109,255,63,.30);
-        }
-        .premium-ui[data-button-theme="orange-sunset"] {
-          --button-top: #4a220b; --button-mid: #170802; --button-border: #d75d10;
-          --button-border-soft: rgba(255,123,34,.16); --button-text: #ff984d;
-          --button-hover-top: #7c3a10; --button-hover-mid: #250d03; --button-hover-border: #ff9b4a;
-          --button-hover-text: #ffe0c2; --button-glow-strong: rgba(255,123,34,.62); --button-glow-soft: rgba(255,123,34,.30);
-        }
-        .premium-ui[data-button-theme="cyan-aqua"] {
-          --button-top: #073b42; --button-mid: #031416; --button-border: #09bdcb;
-          --button-border-soft: rgba(16,220,232,.16); --button-text: #35eaf4;
-          --button-hover-top: #0c6a75; --button-hover-mid: #05242a; --button-hover-border: #62f7ff;
-          --button-hover-text: #d0fcff; --button-glow-strong: rgba(16,220,232,.65); --button-glow-soft: rgba(16,220,232,.32);
-        }
-        .premium-ui[data-button-theme="violet-lavender"] {
-          --button-top: #2d1b55; --button-mid: #0d0618; --button-border: #8557d9;
-          --button-border-soft: rgba(167,121,255,.16); --button-text: #b994ff;
-          --button-hover-top: #50338b; --button-hover-mid: #160a2b; --button-hover-border: #c09bff;
-          --button-hover-text: #eee4ff; --button-glow-strong: rgba(167,121,255,.60); --button-glow-soft: rgba(167,121,255,.30);
-        }
-        .premium-ui[data-button-theme="silver-steel"] {
-          --button-top: #313a43; --button-mid: #0e1216; --button-border: #8292a0;
-          --button-border-soft: rgba(215,229,242,.15); --button-text: #dce9f4;
-          --button-hover-top: #586773; --button-hover-mid: #171d23; --button-hover-border: #f0f7ff;
-          --button-hover-text: #ffffff; --button-glow-strong: rgba(215,229,242,.48); --button-glow-soft: rgba(215,229,242,.22);
-        }
-        .premium-ui[data-button-theme="deep-red-blood"] {
-          --button-top: #4d0d16; --button-mid: #160205; --button-border: #dc142d;
-          --button-border-soft: rgba(255,30,53,.17); --button-text: #ff4053;
-          --button-hover-top: #841522; --button-hover-mid: #250308; --button-hover-border: #ff334b;
-          --button-hover-text: #ffc1c8; --button-glow-strong: rgba(255,30,53,.68); --button-glow-soft: rgba(255,30,53,.34);
-        }
-        .premium-ui[data-button-theme="indigo-galaxy"] {
-          --button-top: #1a1a55; --button-mid: #060619; --button-border: #4949db;
-          --button-border-soft: rgba(85,80,255,.17); --button-text: #7e7cff;
-          --button-hover-top: #3030a0; --button-hover-mid: #0b0b2d; --button-hover-border: #7976ff;
-          --button-hover-text: #d8d7ff; --button-glow-strong: rgba(85,80,255,.65); --button-glow-soft: rgba(85,80,255,.32);
-        }
-        .premium-ui[data-button-theme="turquoise-ocean"] {
-          --button-top: #063c43; --button-mid: #031416; --button-border: #0abfc5;
-          --button-border-soft: rgba(23,223,228,.16); --button-text: #38eef0;
-          --button-hover-top: #0b6c74; --button-hover-mid: #05252a; --button-hover-border: #62ffff;
-          --button-hover-text: #d0ffff; --button-glow-strong: rgba(23,223,228,.64); --button-glow-soft: rgba(23,223,228,.32);
-        }
-        .premium-ui[data-button-theme="magenta-electric"] {
-          --button-top: #4b0b3d; --button-mid: #180315; --button-border: #db10b6;
-          --button-border-soft: rgba(255,22,212,.18); --button-text: #ff4be1;
-          --button-hover-top: #86156f; --button-hover-mid: #290523; --button-hover-border: #ff55e7;
-          --button-hover-text: #ffd0f5; --button-glow-strong: rgba(255,22,212,.68); --button-glow-soft: rgba(255,22,212,.34);
-        }
-        .premium-ui[data-button-theme="black-neon-edge"] {
-          --button-top: #313840; --button-mid: #07090c; --button-border: #a9c0d3;
-          --button-border-soft: rgba(220,232,245,.13); --button-text: #e0edf7;
-          --button-hover-top: #536575; --button-hover-mid: #0c1015; --button-hover-border: #f1f8ff;
-          --button-hover-text: #ffffff; --button-glow-strong: rgba(220,232,245,.55); --button-glow-soft: rgba(220,232,245,.25);
+        .premium-ui .bg-blue-600,
+        .premium-ui .bg-indigo-600,
+        .premium-ui .bg-purple-600,
+        .premium-ui .bg-emerald-600,
+        .premium-ui .bg-orange-600,
+        .premium-ui .bg-pink-600,
+        .premium-ui .bg-cyan-600 {
+          background: linear-gradient(135deg, #d5b66b, #9c7637) !important;
+          color: #080909 !important;
         }
 
         .premium-ui .bg-slate-900,
@@ -2560,416 +2292,14 @@ ${selectedCharacter.negativePrompt}
           transform: rotate(180deg);
         }
 
-        /* =====================================================
-           UI BACKGROUND THEMES
-           These change only the application chrome/background.
-           Character/stage background selection remains untouched.
-        ===================================================== */
-        .premium-ui[data-bg="gold-grid"] {
-          background:
-            radial-gradient(circle at 50% -8%, rgba(201,164,91,.16), transparent 32%),
-            radial-gradient(circle at 8% 45%, rgba(201,164,91,.055), transparent 24%),
-            radial-gradient(circle at 92% 72%, rgba(201,164,91,.065), transparent 25%),
-            linear-gradient(135deg, #030405 0%, #080a0c 48%, #040506 100%);
-        }
-        .premium-ui[data-bg="luxury-gold"] {
-          background:
-            radial-gradient(ellipse at 50% 0%, rgba(218,178,92,.23), transparent 35%),
-            radial-gradient(circle at 15% 70%, rgba(170,125,48,.08), transparent 28%),
-            linear-gradient(145deg, #020303 0%, #0c0a07 52%, #020202 100%);
-        }
-        .premium-ui[data-bg="carbon"] {
-          background-color: #080a0c;
-          background-image:
-            linear-gradient(135deg, rgba(255,255,255,.025) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.025) 50%, rgba(255,255,255,.025) 75%, transparent 75%),
-            radial-gradient(circle at 50% 0%, rgba(201,164,91,.08), transparent 32%);
-          background-size: 10px 10px, auto;
-        }
-        .premium-ui[data-bg="midnight-blue"] {
-          background:
-            radial-gradient(circle at 72% 12%, rgba(55,92,160,.22), transparent 28%),
-            radial-gradient(circle at 12% 80%, rgba(24,52,104,.18), transparent 30%),
-            linear-gradient(145deg, #02050b 0%, #07101d 50%, #020306 100%);
-        }
-        .premium-ui[data-bg="deep-red"] {
-          background:
-            radial-gradient(circle at 70% 15%, rgba(120,25,25,.25), transparent 28%),
-            radial-gradient(circle at 18% 78%, rgba(83,16,22,.18), transparent 28%),
-            linear-gradient(145deg, #050303 0%, #130708 48%, #030202 100%);
-        }
-        .premium-ui[data-bg="neon-cyber"] {
-          background:
-            radial-gradient(circle at 18% 18%, rgba(0,190,210,.12), transparent 25%),
-            radial-gradient(circle at 82% 75%, rgba(130,55,210,.14), transparent 27%),
-            linear-gradient(145deg, #020507 0%, #090610 52%, #020304 100%);
-        }
-        .premium-ui[data-bg="studio-spotlight"] {
-          background:
-            radial-gradient(ellipse 45% 38% at 50% 18%, rgba(245,238,220,.12), transparent 70%),
-            radial-gradient(ellipse at 50% 100%, rgba(201,164,91,.07), transparent 38%),
-            linear-gradient(180deg, #101112 0%, #050607 42%, #020303 100%);
-        }
-        .premium-ui[data-bg="obsidian"] {
-          background:
-            radial-gradient(circle at 50% 0%, rgba(255,255,255,.055), transparent 30%),
-            linear-gradient(145deg, #030405 0%, #0b0d0f 50%, #030405 100%);
-        }
-        .premium-ui[data-bg="aurora-noir"] {
-          background:
-            radial-gradient(ellipse 55% 35% at 18% 12%, rgba(45,190,150,.16), transparent 68%),
-            radial-gradient(ellipse 50% 34% at 82% 20%, rgba(90,90,220,.14), transparent 70%),
-            linear-gradient(145deg, #020506 0%, #07100f 48%, #040407 100%);
-        }
-        .premium-ui[data-bg="emerald-noir"] {
-          background:
-            radial-gradient(circle at 75% 12%, rgba(20,145,105,.20), transparent 30%),
-            radial-gradient(circle at 15% 78%, rgba(10,85,65,.15), transparent 28%),
-            linear-gradient(145deg, #020403 0%, #07100d 52%, #020303 100%);
-        }
-        .premium-ui[data-bg="violet-cinema"] {
-          background:
-            radial-gradient(circle at 70% 16%, rgba(125,70,190,.22), transparent 30%),
-            radial-gradient(circle at 20% 78%, rgba(75,35,125,.16), transparent 28%),
-            linear-gradient(145deg, #040305 0%, #0e0712 50%, #030204 100%);
-        }
-        .premium-ui[data-bg="silver-steel"] {
-          background:
-            radial-gradient(ellipse at 50% 0%, rgba(210,220,225,.13), transparent 32%),
-            radial-gradient(circle at 12% 75%, rgba(130,145,155,.07), transparent 25%),
-            linear-gradient(145deg, #050708 0%, #111416 50%, #030405 100%);
-        }
-        .premium-ui[data-bg="amber-cinema"] {
-          background:
-            radial-gradient(circle at 52% 14%, rgba(220,150,45,.22), transparent 30%),
-            radial-gradient(circle at 10% 82%, rgba(150,75,20,.10), transparent 25%),
-            linear-gradient(145deg, #050403 0%, #140e06 52%, #030302 100%);
-        }
-        .premium-ui[data-bg="royal-blue"] {
-          background:
-            radial-gradient(circle at 78% 10%, rgba(45,90,210,.22), transparent 28%),
-            radial-gradient(circle at 18% 82%, rgba(35,60,150,.14), transparent 28%),
-            linear-gradient(145deg, #020409 0%, #07102a 50%, #020306 100%);
-        }
-        .premium-ui[data-bg="plum-noir"] {
-          background:
-            radial-gradient(circle at 72% 18%, rgba(155,55,120,.20), transparent 30%),
-            radial-gradient(circle at 15% 78%, rgba(95,35,90,.13), transparent 28%),
-            linear-gradient(145deg, #050304 0%, #12070f 50%, #030203 100%);
-        }
-        .premium-ui[data-bg="warm-studio"] {
-          background:
-            radial-gradient(ellipse 48% 42% at 50% 18%, rgba(255,205,125,.14), transparent 70%),
-            radial-gradient(circle at 50% 85%, rgba(201,164,91,.07), transparent 28%),
-            linear-gradient(180deg, #14100b 0%, #080706 45%, #020202 100%);
-        }
-
-        .premium-ui[data-bg="carbon"]::before {
-          opacity: .18;
-        }
-        .premium-ui[data-bg="midnight-blue"]::before {
-          background-image:
-            linear-gradient(rgba(80,130,210,.045) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(80,130,210,.045) 1px, transparent 1px);
-          background-size: 72px 72px;
-          opacity: .55;
-        }
-        .premium-ui[data-bg="deep-red"]::before {
-          background-image:
-            linear-gradient(rgba(180,55,55,.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(180,55,55,.04) 1px, transparent 1px);
-          background-size: 80px 80px;
-          opacity: .5;
-        }
-        .premium-ui[data-bg="neon-cyber"]::before {
-          background-image:
-            linear-gradient(rgba(0,190,210,.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(150,70,220,.035) 1px, transparent 1px);
-          background-size: 56px 56px;
-          opacity: .65;
-        }
-        .premium-ui[data-bg="studio-spotlight"]::before,
-        .premium-ui[data-bg="obsidian"]::before,
-        .premium-ui[data-bg="silver-steel"]::before,
-        .premium-ui[data-bg="warm-studio"]::before {
-          opacity: .10;
-        }
-        .premium-ui[data-bg="aurora-noir"]::before,
-        .premium-ui[data-bg="emerald-noir"]::before {
-          background-image:
-            linear-gradient(rgba(55,190,155,.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(55,190,155,.035) 1px, transparent 1px);
-          background-size: 72px 72px;
-          opacity: .42;
-        }
-        .premium-ui[data-bg="violet-cinema"]::before,
-        .premium-ui[data-bg="plum-noir"]::before {
-          background-image:
-            linear-gradient(rgba(155,75,190,.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(155,75,190,.035) 1px, transparent 1px);
-          background-size: 76px 76px;
-          opacity: .42;
-        }
-        .premium-ui[data-bg="silver-steel"]::before {
-          background-image:
-            linear-gradient(rgba(205,215,220,.028) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(205,215,220,.028) 1px, transparent 1px);
-          background-size: 80px 80px;
-        }
-        .premium-ui[data-bg="amber-cinema"]::before,
-        .premium-ui[data-bg="warm-studio"]::before {
-          background-image:
-            linear-gradient(rgba(220,165,75,.032) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(220,165,75,.032) 1px, transparent 1px);
-          background-size: 84px 84px;
-          opacity: .38;
-        }
-        .premium-ui[data-bg="royal-blue"]::before {
-          background-image:
-            linear-gradient(rgba(75,115,220,.035) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(75,115,220,.035) 1px, transparent 1px);
-          background-size: 72px 72px;
-          opacity: .45;
-        }
-
-        .button-color-picker {
-          display: flex;
-          align-items: center;
-          gap: 9px;
-          border: 1px solid rgba(22,120,181,.30);
-          background: rgba(8,9,10,.76);
-          border-radius: 12px;
-          padding: 7px 10px;
-          box-shadow: inset 0 0 18px rgba(56,191,255,.025);
-          position: relative;
-          z-index: 50;
-        }
-        .button-color-picker:hover { border-color: var(--button-hover-border); }
-        .button-color-trigger { border-color: var(--button-border) !important; background: linear-gradient(145deg, var(--button-top) 0%, #080b0e 100%); color: var(--button-text); }
-        .button-color-trigger:hover { border-color: var(--button-hover-border) !important; background: linear-gradient(145deg, var(--button-hover-top) 0%, #090e13 100%); color: var(--button-hover-text); }
-        .button-color-menu { border-color: var(--button-border) !important; background: #080b0e; }
-        .button-color-menu .background-dropdown-option:hover { background: color-mix(in srgb, var(--button-hover-border) 12%, transparent); border-color: color-mix(in srgb, var(--button-hover-border) 28%, transparent); }
-        .button-color-menu .background-dropdown-option.is-active { background: linear-gradient(90deg, color-mix(in srgb, var(--button-border) 16%, transparent), color-mix(in srgb, var(--button-border) 5%, transparent)); border-color: color-mix(in srgb, var(--button-border) 30%, transparent); color: var(--button-hover-text); }
-        .button-color-menu .background-check { color: var(--button-text); }
-        .button-theme-swatch {
-          width: 11px;
-          height: 11px;
-          min-width: 11px;
-          border-radius: 999px;
-          border: 1px solid rgba(255,255,255,.35);
-          display: inline-block;
-        }
-        .button-theme-swatch-trigger {
-          width: 10px;
-          height: 10px;
-          min-width: 10px;
-          margin-right: 2px;
-        }
-        .button-theme-icon {
-          display: none;
-        }
-
-        .background-picker {
-          display: flex;
-          align-items: center;
-          gap: 9px;
-          border: 1px solid rgba(201,164,91,.30);
-          background: rgba(8,9,10,.76);
-          border-radius: 12px;
-          padding: 7px 10px;
-          box-shadow: inset 0 0 18px rgba(201,164,91,.025);
-        }
-        .background-picker-label {
-          color: #aaa69c;
-          font-size: 11px;
-          text-transform: uppercase;
-          letter-spacing: 1.2px;
-          white-space: nowrap;
-        }
-        .background-picker {
-          position: relative;
-          z-index: 50;
-        }
-        .background-picker.is-open { z-index: 100; }
-        .button-color-picker.is-open { z-index: 100; }
-        .background-dropdown {
-          position: relative;
-          min-width: 230px;
-        }
-        .background-dropdown-trigger {
-          width: 100%;
-          min-width: 230px;
-          height: 38px;
-          padding: 0 36px 0 12px;
-          border: 1px solid rgba(201,164,91,.46);
-          border-radius: 8px;
-          background: linear-gradient(145deg, #1c1811 0%, #0b0b0a 100%);
-          color: #f4e8c8;
-          font-size: 13px;
-          font-weight: 600;
-          text-align: left;
-          cursor: pointer;
-          position: relative;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 4px 16px rgba(0,0,0,.25);
-        }
-        .background-dropdown-trigger:hover {
-          border-color: rgba(230,199,123,.78);
-          background: linear-gradient(145deg, #241e14 0%, #0d0c0a 100%);
-        }
-        .background-dropdown-arrow {
-          position: absolute;
-          right: 12px;
-          top: 50%;
-          transform: translateY(-54%);
-          color: #e6c77b;
-          font-size: 18px;
-          line-height: 1;
-        }
-        .background-dropdown-menu {
-          position: absolute;
-          top: calc(100% + 7px);
-          right: 0;
-          width: 280px;
-          max-height: 360px;
-          overflow-y: auto;
-          padding: 6px;
-          border: 1px solid rgba(201,164,91,.48);
-          border-radius: 10px;
-          background: #0b0b0a;
-          box-shadow: 0 18px 50px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.035);
-          z-index: 9999;
-        }
-        .background-dropdown-menu::-webkit-scrollbar { width: 7px; }
-        .background-dropdown-menu::-webkit-scrollbar-track { background: #080807; border-radius: 8px; }
-        .background-dropdown-menu::-webkit-scrollbar-thumb { background: #4d3c20; border-radius: 8px; }
-        .background-dropdown-option {
-          width: 100%;
-          min-height: 36px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 8px 10px;
-          margin: 1px 0;
-          border: 1px solid transparent;
-          border-radius: 7px;
-          background: transparent;
-          color: #ddd7c9;
-          text-align: left;
-          font-size: 12.5px;
-          cursor: pointer;
-        }
-        .background-dropdown-option:hover {
-          background: rgba(201,164,91,.12);
-          border-color: rgba(201,164,91,.22);
-          color: #f4e8c8;
-        }
-        .background-dropdown-option.is-active {
-          background: linear-gradient(90deg, rgba(201,164,91,.16), rgba(201,164,91,.055));
-          border-color: rgba(201,164,91,.30);
-          color: #f4e8c8;
-        }
-        .background-check {
-          margin-left: auto;
-          color: #e6c77b;
-          font-weight: 800;
-        }
-
         @media (max-width: 900px) {
-          .premium-shell { padding: 18px 16px 30px; }
-          .premium-header {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 18px;
-            margin-bottom: 24px;
-          }
-          .premium-brand {
-            width: 100%;
-            gap: 14px;
-            align-items: center;
-          }
-          .top-left-logo {
-            width: 82px;
-            height: 58px;
-          }
-          .top-left-logo img { width: 82px; }
-          .brand-title { font-size: clamp(30px, 7vw, 38px); }
-          .brand-subtitle { font-size: 13px; margin-top: 7px; line-height: 1.45; }
+          .premium-shell { padding: 20px 16px 30px; }
+          .premium-header { align-items: flex-start; }
           .flow-badge { display: none; }
-          .premium-header > div:last-child {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            gap: 10px;
-          }
-          .background-picker,
-          .button-color-picker {
-            width: 100%;
-            box-sizing: border-box;
-          }
-          .background-dropdown,
-          .button-color-dropdown {
-            min-width: 0;
-            width: 100%;
-            flex: 1;
-          }
-          .background-dropdown-trigger {
-            min-width: 0;
-            width: 100%;
-          }
-          .background-dropdown-menu { width: 100%; }
-          .premium-header > div:last-child > button {
-            width: 100%;
-            justify-content: center;
-          }
-          .top-right-logo { width: 70px; height: 44px; }
-          .top-right-logo img { width: 70px; }
           .premium-grid { grid-template-columns: 1fr; }
           .premium-card { padding: 20px !important; }
           .st-mark { width: 76px; font-size: 36px; }
           .brand-divider { display: none; }
-        }
-
-        @media (max-width: 520px) {
-          .premium-shell { padding: 14px 12px 26px; }
-          .premium-header { gap: 14px; margin-bottom: 18px; }
-          .premium-brand { gap: 10px; align-items: flex-start; }
-          .top-left-logo {
-            width: 68px;
-            height: 50px;
-            margin-top: 2px;
-          }
-          .top-left-logo img { width: 68px; }
-          .brand-title {
-            font-size: 28px;
-            letter-spacing: -1px;
-          }
-          .brand-subtitle {
-            font-size: 12px;
-            max-width: 240px;
-          }
-          .background-picker,
-          .button-color-picker {
-            padding: 6px 8px;
-            gap: 7px;
-          }
-          .background-picker-label { font-size: 10px; }
-          .background-dropdown-trigger {
-            height: 40px;
-            font-size: 12px;
-            padding-left: 10px;
-            padding-right: 32px;
-          }
-          .premium-card { padding: 16px !important; }
-          .premium-footer {
-            gap: 8px;
-            white-space: nowrap;
-            font-size: 12px;
-          }
-          .premium-footer::before,
-          .premium-footer::after {
-            width: 58px;
-            flex: 0 0 58px;
-          }
         }
       `}</style>
 
@@ -2977,7 +2307,7 @@ ${selectedCharacter.negativePrompt}
 
         <header className="premium-header">
           <div className="premium-brand">
-            <div className="top-left-logo" aria-label="ST"><img src="/st-logo-transparent.png" alt="ST" /></div>
+            <div className="st-mark" aria-label="ST">ST</div>
             <div className="brand-divider" />
             <div>
               <div className="brand-title">
@@ -2989,97 +2319,7 @@ ${selectedCharacter.negativePrompt}
             </div>
           </div>
 
-          <div className="flex items-center gap-3 flex-wrap justify-end">
-            <div className={`background-picker ${bgMenuOpen ? "is-open" : ""}`} title="Change the Studio UI background">
-              <span className="background-picker-label">BG</span>
-              <div className="background-dropdown">
-                <button
-                  type="button"
-                  className="background-dropdown-trigger"
-                  onClick={() => {
-                    setBgMenuOpen((open) => !open);
-                    setButtonColorMenuOpen(false);
-                  }}
-                  aria-haspopup="listbox"
-                  aria-expanded={bgMenuOpen}
-                >
-                  {UI_BACKGROUND_THEMES.find((theme) => theme.id === uiBackground)?.icon} {UI_BACKGROUND_THEMES.find((theme) => theme.id === uiBackground)?.name}
-                  <span className="background-dropdown-arrow">⌄</span>
-                </button>
-                {bgMenuOpen && (
-                  <div className="background-dropdown-menu" role="listbox" aria-label="Studio background themes">
-                    {UI_BACKGROUND_THEMES.map((theme) => (
-                      <button
-                        key={theme.id}
-                        type="button"
-                        role="option"
-                        aria-selected={uiBackground === theme.id}
-                        className={`background-dropdown-option ${uiBackground === theme.id ? "is-active" : ""}`}
-                        onClick={() => {
-                          setUiBackground(theme.id);
-                          setBgMenuOpen(false);
-                        }}
-                      >
-                        <span>{theme.icon}</span>
-                        <span>{theme.name}</span>
-                        {uiBackground === theme.id && <span className="background-check">✓</span>}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className={`button-color-picker ${buttonColorMenuOpen ? "is-open" : ""}`} title="Change the action button color theme">
-              <span className="background-picker-label">COLOR</span>
-              <div className="background-dropdown button-color-dropdown">
-                <button
-                  type="button"
-                  className="background-dropdown-trigger button-color-trigger"
-                  onClick={() => {
-                    setButtonColorMenuOpen((open) => !open);
-                    setBgMenuOpen(false);
-                  }}
-                  aria-haspopup="listbox"
-                  aria-expanded={buttonColorMenuOpen}
-                >
-                  <span
-                    className="button-theme-swatch button-theme-swatch-trigger"
-                    style={{ background: BUTTON_COLOR_THEMES.find((theme) => theme.id === buttonColorTheme)?.swatch, boxShadow: `0 0 9px ${BUTTON_COLOR_THEMES.find((theme) => theme.id === buttonColorTheme)?.swatch}` }}
-                    aria-hidden="true"
-                  />
-                  {BUTTON_COLOR_THEMES.find((theme) => theme.id === buttonColorTheme)?.name}
-                  <span className="background-dropdown-arrow">⌄</span>
-                </button>
-                {buttonColorMenuOpen && (
-                  <div className="background-dropdown-menu button-color-menu" role="listbox" aria-label="Action button color themes">
-                    {BUTTON_COLOR_THEMES.map((theme) => (
-                      <button
-                        key={theme.id}
-                        type="button"
-                        role="option"
-                        aria-selected={buttonColorTheme === theme.id}
-                        className={`background-dropdown-option ${buttonColorTheme === theme.id ? "is-active" : ""}`}
-                        onClick={() => {
-                          setButtonColorTheme(theme.id);
-                          setButtonColorMenuOpen(false);
-                        }}
-                      >
-                        <span
-                          className="button-theme-swatch"
-                          style={{ background: theme.swatch, boxShadow: `0 0 10px ${theme.swatch}` }}
-                          aria-hidden="true"
-                        />
-                        <span className="button-theme-icon">{theme.icon}</span>
-                        <span>{theme.name}</span>
-                        {buttonColorTheme === theme.id && <span className="background-check">✓</span>}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
+          <div className="flex items-center gap-3">
             <button
               onClick={async () => {
                 if (!prompt) {
@@ -3100,6 +2340,10 @@ ${selectedCharacter.negativePrompt}
               Copy Prompt
             </button>
 
+            <div className="flow-badge">
+              <span className="flow-star">✦</span>
+              <span>Powered by Google Flow</span>
+            </div>
           </div>
         </header>
 
@@ -3626,7 +2870,7 @@ ${selectedCharacter.negativePrompt}
                 loading ||
                 !script.trim()
               }
-              className="premium-action-button w-full rounded-lg p-3 font-semibold mt-6"
+              className="w-full rounded-lg bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed p-3 font-semibold mt-6"
             >
               {loading
                 ? "Generating..."
@@ -3641,7 +2885,7 @@ ${selectedCharacter.negativePrompt}
                 loading ||
                 !script.trim()
               }
-              className="premium-action-button w-full rounded-lg p-3 font-semibold mt-3"
+              className="w-full rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed p-3 font-semibold mt-3 transition"
             >
               Create Shot Breakdown
             </button>
@@ -3654,7 +2898,7 @@ ${selectedCharacter.negativePrompt}
                 loading ||
                 shots.length === 0
               }
-              className="premium-action-button w-full rounded-lg p-3 font-semibold mt-3"
+              className="w-full rounded-lg bg-purple-600 hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed p-3 font-semibold mt-3 transition"
             >
               {loading
                 ? "Generating Shot Prompts..."
@@ -3858,7 +3102,7 @@ ${selectedCharacter.negativePrompt}
                                   );
                                 }
                               }}
-                              className="premium-action-button w-full rounded-lg p-2 text-sm font-semibold mt-3"
+                              className="w-full rounded-lg bg-emerald-600 hover:bg-emerald-700 p-2 text-sm font-semibold mt-3 transition"
                             >
                               Copy Shot{" "}
                               {
@@ -4073,7 +3317,7 @@ ${buildContinuityFooter()}`;
                               disabled={
                                 loading
                               }
-                              className="premium-action-button w-full rounded-lg p-2 text-sm font-semibold mt-2"
+                              className="w-full rounded-lg bg-orange-600 hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed p-2 text-sm font-semibold mt-2 transition"
                             >
                               {loading
                                 ? `Regenerating Shot ${shot.shotNumber}...`
@@ -4179,7 +3423,7 @@ ${buildContinuityFooter()}`;
                               );
                             }
                           }}
-                          className="premium-action-button w-full rounded-lg p-2 text-sm font-semibold mt-3"
+                          className="w-full rounded-lg bg-emerald-600 hover:bg-emerald-700 p-2 text-sm font-semibold mt-3"
                         >
                           Copy Historical
                           Prompt
@@ -4221,7 +3465,7 @@ ${buildContinuityFooter()}`;
                   );
                 }
               }}
-              className="premium-action-button w-full rounded-lg p-3 font-semibold mt-4"
+              className="w-full rounded-lg bg-emerald-600 hover:bg-emerald-700 p-3 font-semibold mt-4"
             >
               Copy Prompt
             </button>
@@ -4299,7 +3543,7 @@ ${buildContinuityFooter()}`;
                 disabled={
                   !referenceImagePrompt
                 }
-                className="premium-action-button w-full mt-3 rounded-lg p-3 font-semibold"
+                className="w-full mt-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 p-3 font-semibold"
               >
                 Copy Reference Image
                 Prompt
@@ -4348,7 +3592,7 @@ ${buildContinuityFooter()}`;
                   socialLoading ||
                   !script.trim()
                 }
-                className="premium-action-button w-full rounded-lg p-3 font-semibold"
+                className="w-full rounded-lg bg-pink-600 hover:bg-pink-700 disabled:opacity-50 p-3 font-semibold"
               >
                 {socialLoading
                   ? "Generating Metadata..."
@@ -4363,7 +3607,7 @@ ${buildContinuityFooter()}`;
                   trendLoading ||
                   !script.trim()
                 }
-                className="premium-action-button w-full mt-3 rounded-lg p-3 font-semibold"
+                className="w-full mt-3 rounded-lg bg-cyan-600 hover:bg-cyan-700 disabled:opacity-50 p-3 font-semibold"
               >
                 {trendLoading
                   ? "Researching Current Trends..."
@@ -5218,7 +4462,7 @@ ${buildContinuityFooter()}`;
                 onClick={
                   saveProject
                 }
-                className="premium-action-button w-full rounded-lg p-3 font-semibold mb-4"
+                className="w-full rounded-lg bg-blue-600 hover:bg-blue-700 p-3 font-semibold mb-4 transition"
               >
                 Save Project
               </button>
@@ -5274,7 +4518,7 @@ ${buildContinuityFooter()}`;
                                 project
                               )
                             }
-                            className="premium-action-button flex-1 rounded-lg p-2 text-sm font-semibold"
+                            className="flex-1 rounded-lg bg-blue-600 hover:bg-blue-700 p-2 text-sm font-semibold"
                           >
                             Load
                           </button>
@@ -5306,7 +4550,7 @@ ${buildContinuityFooter()}`;
         </div>
 
         <div className="premium-footer">
-          Developed by ST &nbsp;•&nbsp; Tested By DP
+          Developed by ST
         </div>
 
       </div>

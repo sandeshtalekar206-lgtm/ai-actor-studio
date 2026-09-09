@@ -3,6 +3,12 @@ import { NextResponse } from "next/server";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
+// Pulls a "retry in Ns" hint out of a Gemini error message, if present.
+function parseRetrySeconds(message: string): number {
+  const retryMatch = message.match(/retry(?: in| after)?\s+([\d.]+)s/i);
+  return retryMatch ? Math.ceil(Number(retryMatch[1])) : 15;
+}
+
 export async function POST(req: Request) {
   try {
     const {
@@ -12,16 +18,16 @@ export async function POST(req: Request) {
     } = await req.json();
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-3.6-flash",
+      // Lighter model = much higher free-tier quota than 3.6-flash.
+      // Bump back to "gemini-3.6-flash" only if output quality needs it.
+      model: "gemini-3.5-flash-lite",
     });
 
     let contents: any;
 
     if (referenceImage && referenceImageMimeType) {
       contents = [
-        {
-          text: prompt,
-        },
+        { text: prompt },
         {
           inlineData: {
             data: referenceImage,
@@ -34,75 +40,81 @@ export async function POST(req: Request) {
     }
 
     let result;
-let lastError;
+    let lastError;
 
-for (let attempt = 1; attempt <= 3; attempt++) {
-  try {
-    
-    result = await model.generateContent(contents);
-    break;
-  } catch (error) {
-    lastError = error;
+    // Retry temporary AND quota/rate-limit errors up to 4 times
+    const MAX_ATTEMPTS = 4;
 
-    const message =
-      error instanceof Error
-        ? error.message
-        : String(error);
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+      try {
+        result = await model.generateContent(contents);
+        break;
+      } catch (error) {
+        lastError = error;
 
-    const isTemporaryError =
-      message.includes("503") ||
-      message.includes("Service Unavailable") ||
-      message.includes("high demand");
+        const message =
+          error instanceof Error ? error.message : String(error);
 
-    if (!isTemporaryError || attempt === 3) {
-      throw error;
+        const isTemporaryError =
+          message.includes("503") ||
+          message.includes("Service Unavailable") ||
+          message.includes("high demand");
+
+        const isQuotaError =
+          message.includes("429") ||
+          message.includes("Too Many Requests") ||
+          message.includes("quota") ||
+          message.includes("QuotaFailure");
+
+        if ((!isTemporaryError && !isQuotaError) || attempt === MAX_ATTEMPTS) {
+          throw error;
+        }
+
+        // For quota errors, respect Gemini's own suggested wait time.
+        // For temporary errors, use simple linear backoff.
+        const delayMs = isQuotaError
+          ? parseRetrySeconds(message) * 1000
+          : attempt * 3000;
+
+        console.log(
+          `Gemini ${isQuotaError ? "quota" : "temporarily unavailable"}. ` +
+            `Retry ${attempt}/${MAX_ATTEMPTS} after ${delayMs}ms`
+        );
+
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+      }
     }
 
-    const delay = attempt * 3000;
+    if (!result) {
+      throw lastError || new Error("Gemini generation failed.");
+    }
 
-    console.log(
-      `Gemini temporarily unavailable. Retry ${attempt}/3 after ${delay}ms`
-    );
-
-    await new Promise((resolve) =>
-      setTimeout(resolve, delay)
-    );
-  }
-}
-
-if (!result) {
-  throw lastError || new Error("Gemini generation failed.");
-}
-
-const response = await result.response;
-const text = response.text();
+    const response = await result.response;
+    const text = response.text();
 
     return NextResponse.json({
       success: true,
       output: text,
     });
-    } catch (error: any) {
+  } catch (error: any) {
     console.error("GEMINI ERROR:", error);
 
-    const errorMessage =
-      error instanceof Error
-        ? error.message
-        : String(error);
+    console.error(
+      "GEMINI ERROR DETAILS:",
+      JSON.stringify(error, Object.getOwnPropertyNames(error), 2)
+    );
 
-    // Gemini quota / rate-limit error
+    const errorMessage =
+      error instanceof Error ? error.message : String(error);
+
+    // Gemini quota / rate-limit error (after retries exhausted)
     if (
       errorMessage.includes("429") ||
       errorMessage.includes("Too Many Requests") ||
       errorMessage.includes("quota") ||
       errorMessage.includes("QuotaFailure")
     ) {
-      const retryMatch = errorMessage.match(
-        /retry(?: in| after)?\s+([\d.]+)s/i
-      );
-
-      const retrySeconds = retryMatch
-        ? Math.ceil(Number(retryMatch[1]))
-        : 60;
+      const retrySeconds = parseRetrySeconds(errorMessage);
 
       return NextResponse.json(
         {
@@ -115,7 +127,7 @@ const text = response.text();
       );
     }
 
-    // Other Gemini/API errors
+    // Other Gemini / API errors
     return NextResponse.json(
       {
         success: false,
